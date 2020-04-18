@@ -72,7 +72,7 @@ public class SearchActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(SearchActivity.this,"Signed Out!",Toast.LENGTH_LONG);
+                        Toast.makeText(SearchActivity.this,"Signed Out!",Toast.LENGTH_LONG).show();
                         finish();
                     }
                 });
