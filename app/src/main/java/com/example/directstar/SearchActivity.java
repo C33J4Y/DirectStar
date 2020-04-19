@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
 
         name = findViewById(R.id.textName);
         email = findViewById(R.id.textEmail);
-        id = findViewById(R.id.textID);
+        //id = findViewById(R.id.textID);
         signOut = findViewById(R.id.button);
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class SearchActivity extends AppCompatActivity {
 
             name.setText(personName);
             email.setText(personEmail);
-            id.setText(personId);
+            //id.setText(personId);
         }
 
 
