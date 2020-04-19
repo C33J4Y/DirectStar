@@ -18,7 +18,7 @@ import com.google.android.gms.tasks.Task;
 
 public class SearchActivity extends AppCompatActivity {
     TextView name, email, id;
-    Button signOut;
+    Button signOutButton;
     GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -38,13 +38,13 @@ public class SearchActivity extends AppCompatActivity {
         name = findViewById(R.id.textName);
         email = findViewById(R.id.textEmail);
         //id = findViewById(R.id.textID);
-        signOut = findViewById(R.id.button);
-        signOut.setOnClickListener(new View.OnClickListener() {
+        signOutButton = findViewById(R.id.signOutButton);
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     // ...
-                    case R.id.button:
+                    case R.id.signOutButton:
                         signOut();
                         break;
                     // ...
