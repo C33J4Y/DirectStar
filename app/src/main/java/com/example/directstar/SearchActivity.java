@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class SearchActivity extends AppCompatActivity {
     TextView name, email, id;
     Button signOutButton;
     GoogleSignInClient mGoogleSignInClient;
+    public static final String EXTRA_MESSAGE = "com.example.directstar";
 
 
 
@@ -41,52 +44,6 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        final TextView textView = (TextView) findViewById(R.id.textView);
-        // ...
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://api.eventful.com/json/venues/search?app_key=62KpsJNvpqFdhZnr&keywords=Target&location=Boynton&within=10&units=mi&sort_order=popularity";
-
-        // Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // Do something with the response
-//                        textView.setText(response);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // Handle error
-//                        textView.setText(error.toString()); //Prints error to textView
-//                    }
-//                });
-
-        // Request a json response from the provided URL.
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        textView.setText(response.toString());
-
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        textView.setText(error.toString());
-                    }
-                });
-
-
-        // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -129,6 +86,15 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    public void sendMessage(View view){
+        // Do something in response to button
+        Intent intent = new Intent(this, searchResultActivity.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String keyword = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, keyword);
+        startActivity(intent);
+
+    }
     private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
