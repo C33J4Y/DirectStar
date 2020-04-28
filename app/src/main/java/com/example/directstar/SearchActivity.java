@@ -3,7 +3,6 @@ package com.example.directstar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,13 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,14 +20,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
-
-import org.json.JSONObject;
-
 public class SearchActivity extends AppCompatActivity {
     TextView name, email, id;
     Button signOutButton;
     GoogleSignInClient mGoogleSignInClient;
-    public static final String EXTRA_MESSAGE = "com.example.directstar";
+    public static final String EXTRA_MESSAGE = "com.example.directstar"; //Extra message to pass Keyword
+    public static final String EXTRA_MESSAGE2 = "com.example.directstar2"; //Extra message to pass location
 
 
 
@@ -87,12 +77,14 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view){
-        // Do something in response to button
-        //TODO: Add location editText and pass it to searchResultActivity
+        // Grabs Keyword and Location and passes it to searchResultActivity
         Intent intent = new Intent(this, searchResultActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
+        EditText editText2 = (EditText) findViewById(R.id.editText2);
         String keyword = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, keyword);
+        String location = editText2.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, keyword); //Extra message needs to be different with
+        intent.putExtra(EXTRA_MESSAGE2, location); // each putExtra() to avoid overwriting values
         startActivity(intent);
 
     }
