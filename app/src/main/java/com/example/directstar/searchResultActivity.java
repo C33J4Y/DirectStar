@@ -20,8 +20,6 @@ import org.json.JSONObject;
 
 public class searchResultActivity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +28,7 @@ public class searchResultActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String keyword = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE);
+        String location = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE2);
 
         final TextView searchResultView = (TextView) findViewById(R.id.searchResultView);
 
@@ -37,7 +36,7 @@ public class searchResultActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.eventful.com/json/venues/search?app_key=62KpsJNvpqFdhZnr&keywords=" + keyword + "&location=Boynton&within=10&units=mi&sort_order=popularity";
+        String url = "https://api.eventful.com/json/venues/search?app_key=62KpsJNvpqFdhZnr&keywords=" + keyword + "&location="+location+"&within=10&units=mi&sort_order=popularity";
 
         // Request a json response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -66,7 +65,6 @@ public class searchResultActivity extends AppCompatActivity {
         String searchResults = "";
         String CRLF = "\n";
         int i = 0;
-
 
         // Capture the layout's TextView and set the string as its text
         final TextView searchResultView = findViewById(R.id.searchResultView);
