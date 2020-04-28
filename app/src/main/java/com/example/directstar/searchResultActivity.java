@@ -63,7 +63,7 @@ public class searchResultActivity extends AppCompatActivity {
 
     //Function to parse json data
     public void displaySearchResults(JSONObject response) {
-        String searchResults;
+        String searchResults = "";
         String CRLF = "\n";
         int i = 0;
 
@@ -84,11 +84,11 @@ public class searchResultActivity extends AppCompatActivity {
                     String cityName = venuePart.getString("city_name");
                     String state = venuePart.getString("region_name");
                     String venueType = venuePart.getString("venue_type");
-                    searchResults = "Venue Name: " + venueName + CRLF +
+                    searchResults += "Venue Name: " + venueName + CRLF +
                             "Address: " + address + CRLF +
                             "City: " + cityName + CRLF +
                             "State: " + state + CRLF +
-                            "Venue Type:\t" + venueType;
+                            "Venue Type:\t" + venueType + CRLF + CRLF;
 
                     searchResultView.setText(searchResults);
                 }
