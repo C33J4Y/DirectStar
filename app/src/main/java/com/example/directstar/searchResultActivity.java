@@ -99,9 +99,6 @@ public class searchResultActivity extends AppCompatActivity {
             searchResultView.setText("No Results Found!");
         }
 
-
-
-
     }
 
 }
