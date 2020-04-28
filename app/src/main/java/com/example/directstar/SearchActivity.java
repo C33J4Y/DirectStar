@@ -88,6 +88,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void sendMessage(View view){
         // Do something in response to button
+        //TODO: Add location editText and pass it to searchResultActivity
         Intent intent = new Intent(this, searchResultActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String keyword = editText.getText().toString();

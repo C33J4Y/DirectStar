@@ -76,7 +76,7 @@ public class searchResultActivity extends AppCompatActivity {
             JSONArray venueArray = venues.getJSONArray("venue");
 
 
-                // TODO: ADD FOR loop to iterate through each object in the array to display multiple results
+                // FOR loop to iterate through each object in the array to display multiple results
                 for (i = 0; i < venueArray.length(); i++) {
                     JSONObject venuePart = venueArray.getJSONObject(i);
                     String venueName = venuePart.getString("venue_name");
@@ -95,7 +95,7 @@ public class searchResultActivity extends AppCompatActivity {
         } catch (JSONException e) {
             //e.printStackTrace();
             //searchResultView.setText(e.toString());
-            // TODO: Add IF statements to let users know if search returned NO RESULTS
+            // Handles error when JSONObject is NULL
             searchResultView.setText("No Results Found!");
         }
 
