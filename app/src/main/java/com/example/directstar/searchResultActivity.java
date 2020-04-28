@@ -47,9 +47,6 @@ public class searchResultActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         //searchResultView.setText(response.toString());
                         displaySearchResults(response);
-
-
-
                     }
                 }, new Response.ErrorListener() {
 
@@ -60,7 +57,6 @@ public class searchResultActivity extends AppCompatActivity {
                     }
                 });
 
-
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
@@ -69,6 +65,7 @@ public class searchResultActivity extends AppCompatActivity {
     public void displaySearchResults(JSONObject response) {
         String searchResults;
         String CRLF = "\n";
+        int i = 0;
 
 
         // Capture the layout's TextView and set the string as its text
@@ -77,26 +74,29 @@ public class searchResultActivity extends AppCompatActivity {
         try {
             JSONObject venues = response.getJSONObject("venues");
             JSONArray venueArray = venues.getJSONArray("venue");
-            JSONObject venuePart = venueArray.getJSONObject(0);
-            String venueName = venuePart.getString("venue_name");
-            String address = venuePart.getString("address");
-            String cityName = venuePart.getString("city_name");
-            String state = venuePart.getString("region_name");
-            String venueType = venuePart.getString("venue_type");
-            searchResults = "Venue Name: " + venueName + CRLF +
-                    "Address: " + address + CRLF +
-                    "City: " + cityName + CRLF +
-                    "State: " + state + CRLF +
-                    "Venue Type:\t" + venueType;
 
-            searchResultView.setText(searchResults);
 
-            // TODO: Add IF statements to let users know if search returned NO RESULTS
-            // TODO: ADD FOR loop to iterate through each object in the array to display multiple results
+                // TODO: ADD FOR loop to iterate through each object in the array to display multiple results
+                for (i = 0; i < venueArray.length(); i++) {
+                    JSONObject venuePart = venueArray.getJSONObject(i);
+                    String venueName = venuePart.getString("venue_name");
+                    String address = venuePart.getString("address");
+                    String cityName = venuePart.getString("city_name");
+                    String state = venuePart.getString("region_name");
+                    String venueType = venuePart.getString("venue_type");
+                    searchResults = "Venue Name: " + venueName + CRLF +
+                            "Address: " + address + CRLF +
+                            "City: " + cityName + CRLF +
+                            "State: " + state + CRLF +
+                            "Venue Type:\t" + venueType;
 
+                    searchResultView.setText(searchResults);
+                }
         } catch (JSONException e) {
             //e.printStackTrace();
-            searchResultView.setText(e.toString());
+            //searchResultView.setText(e.toString());
+            // TODO: Add IF statements to let users know if search returned NO RESULTS
+            searchResultView.setText("No Results Found!");
         }
 
 
