@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -22,7 +26,19 @@ public class MainActivity extends AppCompatActivity {
     //Create Sign-in Button Object
     SignInButton signInButton;
 
+    //Create Sign-in Button for local login
+    Button login;
+
+    //Textview objects
+    TextView username;
+    TextView password;
+
+    //EXTRA MESSAGE for putExtra()
+    public static final String EXTRA_MESSAGE3 = "username String"; //Extra message to pass username
+
     int RC_SIGN_IN = 0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +59,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //login with hardcoded values
+        login = (Button) findViewById(R.id.login);
+        username = (TextView) findViewById(R.id.username);
+        password = (TextView) findViewById(R.id.password);
+
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String usernameInput = username.getText().toString();
+                String passwordInput = password.getText().toString();
+
+
+                if(usernameInput.equals("admin") && passwordInput.equals("password")){
+                            goToSearchActivity();
+                } else{
+                    Toast.makeText(MainActivity.this,"Wrong Username or Password. Try Again!",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
 
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -103,6 +140,15 @@ public class MainActivity extends AppCompatActivity {
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
             //updateUI(null);
         }
+    }
+
+    //Function creates new intent and starts SearchActivity once the user has been authenticated.
+    private void goToSearchActivity(){
+        Intent intent = new Intent(this, SearchActivity.class);
+        EditText editText = (EditText) findViewById(R.id.username);
+        String username = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE3, username);
+        startActivity(intent);
     }
 
 }
