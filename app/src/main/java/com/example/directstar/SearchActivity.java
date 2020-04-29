@@ -15,13 +15,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-//import com.google.android.gms.common.api.Response;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
 public class SearchActivity extends AppCompatActivity {
-    TextView name, email, id;
+    TextView name, email;
     Button signOutButton;
     GoogleSignInClient mGoogleSignInClient;
     public static final String EXTRA_MESSAGE = "com.example.directstar"; //Extra message to pass Keyword
@@ -34,6 +33,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //Calls function to set Username and email onCreate
+        retrieveMessage();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -46,17 +47,26 @@ public class SearchActivity extends AppCompatActivity {
 
         name = findViewById(R.id.textName);
         email = findViewById(R.id.textEmail);
-        //id = findViewById(R.id.textID);
         signOutButton = findViewById(R.id.signOutButton);
+
+
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    // ...
+
                     case R.id.signOutButton:
-                        signOut();
+                        // TODO: Create IF to log out without using google.
+                        String currentUser = name.getText().toString();
+                        if(currentUser.equals("admin")){
+
+                            finish(); // Call finish to go back to MainActivity
+
+                    }else{
+                        Toast.makeText(SearchActivity.this,name.getText().toString(),Toast.LENGTH_LONG).show();
+                        signOut();}
                         break;
-                    // ...
+
                 }
             }
         });
@@ -65,12 +75,10 @@ public class SearchActivity extends AppCompatActivity {
         if (acct != null) {
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
-            String personId = acct.getId();
-            //Url personPhoto = acct.getPhotoUrl();
+
 
             name.setText(personName);
             email.setText(personEmail);
-            //id.setText(personId);
         }
 
 
@@ -88,6 +96,21 @@ public class SearchActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    //Function retrieves username and displays is as textview and hard codes a fictitious email
+    public void retrieveMessage(){
+        //Grab username and set email when login in with hard coded values
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        String username = intent.getStringExtra(MainActivity.EXTRA_MESSAGE3);
+        name = findViewById(R.id.textName);
+        email = findViewById(R.id.textEmail);
+        name.setText(username);
+        email.setText("admin@gmail.com");
+
+
+    }
+
     private void signOut() {
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
