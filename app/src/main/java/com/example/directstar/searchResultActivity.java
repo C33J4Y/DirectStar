@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,8 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 public class searchResultActivity extends AppCompatActivity {
 
     @Override
@@ -33,8 +30,6 @@ public class searchResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String keyword = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE);
         String location = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE2);
-
-        final ListView searchResultView = (ListView) findViewById(R.id.searchResultView);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -68,13 +63,9 @@ public class searchResultActivity extends AppCompatActivity {
         String CRLF = "\n";
         int i = 0;
 
-        // Capture the layout's TextView and set the string as its text
-        // final ListView searchResultView = findViewById(R.id.searchResultView);
-
         try {
             JSONObject venues = response.getJSONObject("venues");
             JSONArray venueArray = venues.getJSONArray("venue");
-
 
             // FOR loop to iterate through each object in the array to display multiple results
             for (i = 0; i < venueArray.length(); i++) {
@@ -94,28 +85,28 @@ public class searchResultActivity extends AppCompatActivity {
 
                 //searchResultView.setText(searchResults);
 
-
             }
         } catch (JSONException e) {
             //e.printStackTrace();
             //searchResultView.setText(e.toString());
             // Handles error when JSONObject is NULL
             //Toast.makeText(searchResultActivity.this,"No Results Found. Try Again!",Toast.LENGTH_LONG).show();
-
         }
 
+        populateSearchResultView(searchResults);
+    }
+
+    //Function takes in results from API as a String array, copies to a new array and feeds the adapter
+    public void populateSearchResultView(String[] searchResults){
         int arrayLength = searchResults.length;
+        String[] displayArray = new String[arrayLength];
 
-
-            String[] test = new String[arrayLength];
-
-
-            for (int j = 0; j < arrayLength; j++) {
-                test[j] = searchResults[j];
-            }
+        for (int j = 0; j < arrayLength; j++) {
+            displayArray[j] = searchResults[j];
+        }
 
         ListView listView = (ListView) findViewById(R.id.searchResultView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1,test);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1,displayArray);
         listView.setAdapter(adapter);
     }
 }
