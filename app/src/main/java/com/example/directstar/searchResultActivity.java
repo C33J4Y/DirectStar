@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class searchResultActivity extends AppCompatActivity {
 
@@ -29,11 +34,11 @@ public class searchResultActivity extends AppCompatActivity {
         String keyword = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE);
         String location = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE2);
 
-        final TextView searchResultView = (TextView) findViewById(R.id.searchResultView);
+        final ListView searchResultView = (ListView) findViewById(R.id.searchResultView);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.eventful.com/json/venues/search?app_key=62KpsJNvpqFdhZnr&keywords=" + keyword + "&location="+location+"&within=10&units=mi&sort_order=popularity";
+        String url = "https://api.eventful.com/json/venues/search?app_key=62KpsJNvpqFdhZnr&keywords=" + keyword + "&location=" + location + "&within=10&units=mi&sort_order=popularity";
 
         // Request a json response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -49,7 +54,7 @@ public class searchResultActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        searchResultView.setText(error.toString());
+                        //searchResultView.setText(error.toString());
                     }
                 });
 
@@ -59,43 +64,60 @@ public class searchResultActivity extends AppCompatActivity {
 
     //Function to parse json data
     public void displaySearchResults(JSONObject response) {
-        String searchResults = "";
+        String[] searchResults = new String[10];
         String CRLF = "\n";
         int i = 0;
 
         // Capture the layout's TextView and set the string as its text
-        final TextView searchResultView = findViewById(R.id.searchResultView);
+        // final ListView searchResultView = findViewById(R.id.searchResultView);
 
         try {
             JSONObject venues = response.getJSONObject("venues");
             JSONArray venueArray = venues.getJSONArray("venue");
 
 
-                // FOR loop to iterate through each object in the array to display multiple results
-                for (i = 0; i < venueArray.length(); i++) {
-                    JSONObject venuePart = venueArray.getJSONObject(i);
-                    String venueName = venuePart.getString("venue_name");
-                    String address = venuePart.getString("address");
-                    String cityName = venuePart.getString("city_name");
-                    String state = venuePart.getString("region_name");
-                    String venueType = venuePart.getString("venue_type");
-                    searchResults += "Venue Name: " + venueName + CRLF +
-                            "Address: " + address + CRLF +
-                            "City: " + cityName + CRLF +
-                            "State: " + state + CRLF +
-                            "Venue Type:\t" + venueType + CRLF + CRLF;
+            // FOR loop to iterate through each object in the array to display multiple results
+            for (i = 0; i < venueArray.length(); i++) {
+                JSONObject venuePart = venueArray.getJSONObject(i);
+                String venueName = venuePart.getString("venue_name");
+                String address = venuePart.getString("address");
+                String cityName = venuePart.getString("city_name");
+                String state = venuePart.getString("region_name");
+                String venueType = venuePart.getString("venue_type");
+                searchResults[i] = "Venue Name: " + venueName + CRLF +
+                        "Address: " + address + CRLF +
+                        "City: " + cityName + CRLF +
+                        "State: " + state + CRLF +
+                        "Venue Type:\t" + venueType + CRLF + CRLF;
 
-                    searchResultView.setText(searchResults);
-                }
+                //Toast.makeText(searchResultActivity.this,searchResults[i],Toast.LENGTH_LONG).show();
+
+                //searchResultView.setText(searchResults);
+
+
+            }
         } catch (JSONException e) {
             //e.printStackTrace();
             //searchResultView.setText(e.toString());
             // Handles error when JSONObject is NULL
-            searchResultView.setText("No Results Found!");
+            //Toast.makeText(searchResultActivity.this,"No Results Found. Try Again!",Toast.LENGTH_LONG).show();
+
         }
 
-    }
+        int arrayLength = searchResults.length;
 
+
+            String[] test = new String[arrayLength];
+
+
+            for (int j = 0; j < arrayLength; j++) {
+                test[j] = searchResults[j];
+            }
+
+        ListView listView = (ListView) findViewById(R.id.searchResultView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1,test);
+        listView.setAdapter(adapter);
+    }
 }
 
 
