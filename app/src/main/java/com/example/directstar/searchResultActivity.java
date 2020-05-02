@@ -86,8 +86,8 @@ public class searchResultActivity extends AppCompatActivity {
                 String venueType = venuePart.getString("venue_type");
                 Double lat = venuePart.getDouble("latitude");
                 Double lon = venuePart.getDouble("longitude");
-                //latArray[i] = lat;
-                //lonArray[i] = lon;
+                latArray[i] = lat;
+                lonArray[i] = lon;
 
                 searchResults[i] = "Venue Name: " + venueName + CRLF +
                         "Address: " + address + CRLF +
@@ -115,17 +115,21 @@ public class searchResultActivity extends AppCompatActivity {
             //Toast.makeText(searchResultActivity.this,"No Results Found. Try Again!",Toast.LENGTH_LONG).show();
         }
 
-        populateSearchResultView(searchResults);
+        populateSearchResultView(searchResults,latArray, lonArray);
     }
 
     //Function takes in results from API as a String array, copies to a new array and feeds the adapter
-    public void populateSearchResultView(String[] searchResults){
+    public void populateSearchResultView(String[] searchResults, Double[] latArray, Double[] lonArray){
         int arrayLength = searchResults.length;
         final String[] displayArray = new String[arrayLength];
-
+        final Double[] displayLatArray = new Double[arrayLength];
+        final Double[] displayLonArray = new Double[arrayLength];
         for (int j = 0; j < arrayLength; j++) {
             displayArray[j] = searchResults[j];
-        }
+            displayLatArray[j] = latArray[j];
+            displayLonArray[j] = lonArray[j];
+
+         }
 
         ListView listView = (ListView) findViewById(R.id.searchResultView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1,displayArray);
@@ -140,6 +144,8 @@ public class searchResultActivity extends AppCompatActivity {
                 //Toast.makeText(searchResultActivity.this, displayArray[j], Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(searchResultActivity.this, DescriptionActivity.class);
                 intent.putExtra(EXTRA_MESSAGE3, displayArray[j]); //Extra message needs to be different with
+                intent.putExtra(EXTRA_MESSAGE4,displayLatArray[j]);
+                intent.putExtra(EXTRA_MESSAGE5,displayLonArray[j]);
                 startActivity(intent);
 
             }
