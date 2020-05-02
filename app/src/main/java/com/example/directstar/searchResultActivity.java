@@ -33,7 +33,6 @@ public class searchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_result);
 
         // Get the Intent that started this activity and extract the string
-
         Intent intent = getIntent();
         String keyword = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE);
         String location = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE2);
@@ -83,7 +82,7 @@ public class searchResultActivity extends AppCompatActivity {
                 String address = venuePart.getString("address");
                 String cityName = venuePart.getString("city_name");
                 String state = venuePart.getString("region_name");
-                String venueType = venuePart.getString("venue_type");
+                //String venueType = venuePart.getString("venue_type");
                 Double lat = venuePart.getDouble("latitude");
                 Double lon = venuePart.getDouble("longitude");
                 latArray[i] = lat;
@@ -92,20 +91,13 @@ public class searchResultActivity extends AppCompatActivity {
                 searchResults[i] = "Venue Name: " + venueName + CRLF +
                         "Address: " + address + CRLF +
                         "City: " + cityName + CRLF +
-                        "State: " + state + CRLF +
-                        "Lat:\t" + lat +"Lon:\t" + lon + CRLF + CRLF;
+                        "State: " + state + CRLF ;
+                        //"Lat:\t" + lat +"Lon:\t" + lon + CRLF + CRLF;
                         //"Venue Type:\t" + venueType + CRLF + CRLF;
 
                 //Toast.makeText(searchResultActivity.this,searchResults[i],Toast.LENGTH_LONG).show();
 
                 //searchResultView.setText(searchResults);
-
-                //sendCoordinates(latArray, lonArray);
-//                Intent intent = new Intent(searchResultActivity.this, DescriptionActivity.class);
-//                intent.putExtra(EXTRA_MESSAGE4, lat);
-//                intent.putExtra(EXTRA_MESSAGE5, lon);
-                //startActivity(intent);
-
 
             }
         } catch (JSONException e) {
@@ -151,14 +143,5 @@ public class searchResultActivity extends AppCompatActivity {
             }
         });
     }
-
-//    public void sendCoordinates(Double[] latArray, Double[] lonArray){
-//
-//        Intent intent = new Intent(searchResultActivity.this, DescriptionActivity.class);
-//        Bundle params = new Bundle();
-//        params.putDoubleArray(EXTRA_MESSAGE4, latArray[]);
-//        params.putDouble(EXTRA_MESSAGE5, lonArray);
-//
-//    }
 
 }
