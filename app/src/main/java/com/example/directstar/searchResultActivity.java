@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -20,6 +22,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class searchResultActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE3 = "Description String";
+    public static final String EXTRA_MESSAGE4 = "Latitude Array";
+    public static final String EXTRA_MESSAGE5 =  "Longitude Array";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,7 @@ public class searchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_result);
 
         // Get the Intent that started this activity and extract the string
+
         Intent intent = getIntent();
         String keyword = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE);
         String location = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE2);
@@ -60,6 +67,8 @@ public class searchResultActivity extends AppCompatActivity {
     //Function to parse json data
     public void displaySearchResults(JSONObject response) {
         String[] searchResults = new String[10];
+        Double[] latArray = new Double[10];
+        Double[] lonArray = new Double[10];
         String CRLF = "\n";
         int i = 0;
 
@@ -75,15 +84,28 @@ public class searchResultActivity extends AppCompatActivity {
                 String cityName = venuePart.getString("city_name");
                 String state = venuePart.getString("region_name");
                 String venueType = venuePart.getString("venue_type");
+                Double lat = venuePart.getDouble("latitude");
+                Double lon = venuePart.getDouble("longitude");
+                //latArray[i] = lat;
+                //lonArray[i] = lon;
+
                 searchResults[i] = "Venue Name: " + venueName + CRLF +
                         "Address: " + address + CRLF +
                         "City: " + cityName + CRLF +
                         "State: " + state + CRLF +
-                        "Venue Type:\t" + venueType + CRLF + CRLF;
+                        "Lat:\t" + lat +"Lon:\t" + lon + CRLF + CRLF;
+                        //"Venue Type:\t" + venueType + CRLF + CRLF;
 
                 //Toast.makeText(searchResultActivity.this,searchResults[i],Toast.LENGTH_LONG).show();
 
                 //searchResultView.setText(searchResults);
+
+                //sendCoordinates(latArray, lonArray);
+//                Intent intent = new Intent(searchResultActivity.this, DescriptionActivity.class);
+//                intent.putExtra(EXTRA_MESSAGE4, lat);
+//                intent.putExtra(EXTRA_MESSAGE5, lon);
+                //startActivity(intent);
+
 
             }
         } catch (JSONException e) {
@@ -99,7 +121,7 @@ public class searchResultActivity extends AppCompatActivity {
     //Function takes in results from API as a String array, copies to a new array and feeds the adapter
     public void populateSearchResultView(String[] searchResults){
         int arrayLength = searchResults.length;
-        String[] displayArray = new String[arrayLength];
+        final String[] displayArray = new String[arrayLength];
 
         for (int j = 0; j < arrayLength; j++) {
             displayArray[j] = searchResults[j];
@@ -108,7 +130,29 @@ public class searchResultActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.searchResultView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1,displayArray);
         listView.setAdapter(adapter);
+
+        //To make ListView clickable
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int j, long id) {
+
+                //Toast.makeText(searchResultActivity.this, displayArray[j], Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(searchResultActivity.this, DescriptionActivity.class);
+                intent.putExtra(EXTRA_MESSAGE3, displayArray[j]); //Extra message needs to be different with
+                startActivity(intent);
+
+            }
+        });
     }
+
+//    public void sendCoordinates(Double[] latArray, Double[] lonArray){
+//
+//        Intent intent = new Intent(searchResultActivity.this, DescriptionActivity.class);
+//        Bundle params = new Bundle();
+//        params.putDoubleArray(EXTRA_MESSAGE4, latArray[]);
+//        params.putDouble(EXTRA_MESSAGE5, lonArray);
+//
+//    }
+
 }
-
-
