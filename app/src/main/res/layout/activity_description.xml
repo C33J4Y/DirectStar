@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/descriptionTextView"
-        android:layout_width="308dp"
-        android:layout_height="225dp"
+        android:layout_width="309dp"
+        android:layout_height="157dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="36dp"
@@ -27,5 +27,18 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/favoritesButton"
+        android:layout_width="191dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginLeft="108dp"
+        android:layout_marginTop="56dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="Add to favorites"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

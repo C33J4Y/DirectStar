@@ -7,8 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,10 +24,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 public class DescriptionActivity extends FragmentActivity implements OnMapReadyCallback {
     //Create GoogleMap object
     GoogleMap map;
+    public static final String EXTRA_MESSAGE6 = "Venue to Favorites"; //Extra message to pass location
 
-    //Global Variables to hold Lat and Lon
+    //Global Variables to store Lat and Lon
     Double globalLat;
     Double globalLon;
+    String globalDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
 
         globalLat = lat;
         globalLon = lon;
-
+        globalDescription = description;
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -47,16 +52,29 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
         TextView descriptionTextView = (TextView) findViewById(R.id.descriptionTextView);
         descriptionTextView.setText(description);
 
+        //Select Favorites button and set onclick listener to start new intent
+        Button favoritesButton = (Button) findViewById(R.id.favoritesButton);
+        favoritesButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DescriptionActivity.this, FavoritesActivity.class);
+                intent.putExtra(EXTRA_MESSAGE6, globalDescription);
+                //Toast.makeText(DescriptionActivity.this, globalDescription, Toast.LENGTH_LONG).show();
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         // Add a marker and move the camera to lat and lon given by API
-        LatLng TutorialsPoint = new LatLng(globalLat, globalLon);
+        LatLng venueLocation = new LatLng(globalLat, globalLon);
         map.addMarker(new
-                MarkerOptions().position(TutorialsPoint).title("Tutorialspoint.com"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(TutorialsPoint));
+                MarkerOptions().position(venueLocation).title("Tutorialspoint.com"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(venueLocation));
     }
 
 }
