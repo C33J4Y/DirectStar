@@ -22,9 +22,9 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
     //Create GoogleMap object
     GoogleMap map;
 
-    //Intent intent = getIntent();
-    //Get Doubles using Bundle from searchResultActivity
-    //Double lat = intent.getExtras().getDouble(searchResultActivity.EXTRA_MESSAGE4);
+    //Global Variables to hold Lat and Lon
+    Double globalLat;
+    Double globalLon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,11 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
 
         Intent intent = getIntent();
         String description = intent.getStringExtra(searchResultActivity.EXTRA_MESSAGE3);
+        Double lat = intent.getExtras().getDouble(searchResultActivity.EXTRA_MESSAGE4);
+        Double lon = intent.getExtras().getDouble(searchResultActivity.EXTRA_MESSAGE5);
 
+        globalLat = lat;
+        globalLon = lon;
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -49,7 +53,7 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         // Add a marker in Sydney and move the camera
-        LatLng TutorialsPoint = new LatLng(25, 27);
+        LatLng TutorialsPoint = new LatLng(globalLat, globalLon);
         map.addMarker(new
                 MarkerOptions().position(TutorialsPoint).title("Tutorialspoint.com"));
         map.moveCamera(CameraUpdateFactory.newLatLng(TutorialsPoint));
