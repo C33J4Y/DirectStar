@@ -52,7 +52,7 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        // Add a marker in Sydney and move the camera
+        // Add a marker and move the camera to lat and lon given by API
         LatLng TutorialsPoint = new LatLng(globalLat, globalLon);
         map.addMarker(new
                 MarkerOptions().position(TutorialsPoint).title("Tutorialspoint.com"));
