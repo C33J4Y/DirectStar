@@ -14,6 +14,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="16dp"
         android:text="textName"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,6 +24,7 @@
         android:layout_height="19dp"
         android:layout_marginTop="8dp"
         android:text="textEmail"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +35,9 @@
         android:layout_width="88dp"
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
+        android:background="@android:color/holo_red_dark"
         android:text="@string/sign_out_button"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -46,6 +50,7 @@
         android:ems="10"
         android:hint="@string/search_hint"
         android:inputType="textPersonName"
+        android:textColor="@android:color/background_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textEmail" />
 
@@ -57,8 +62,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:background="@android:color/holo_red_dark"
         android:onClick="sendMessage"
         android:text="Go!"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBaseline_toBaselineOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editText" />
