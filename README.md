@@ -14,3 +14,7 @@ NEW FEATURES:
         PASSWORD: password
         
         NOTE: All characters are lowercase.
+        
+    3. Added Google Maps API integration to show location of business.
+    
+    4.Added functionality to favorite a business.
