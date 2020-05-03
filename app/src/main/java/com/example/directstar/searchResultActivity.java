@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,7 +38,8 @@ public class searchResultActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.eventful.com/json/venues/search?app_key=62KpsJNvpqFdhZnr&keywords=" + keyword + "&location=" + location + "&within=10&units=mi&sort_order=popularity";
+        String url = "https://api.eventful.com/json/venues/search?app_key=62KpsJNvpqFdhZnr&keywords="
+                    + keyword + "&location=" + location + "&within=10&units=mi&sort_order=popularity";
 
         // Request a json response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
