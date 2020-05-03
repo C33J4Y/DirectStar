@@ -1,23 +1,17 @@
 package com.example.directstar;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
@@ -73,7 +67,7 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
         // Add a marker and move the camera to lat and lon given by API
         LatLng venueLocation = new LatLng(globalLat, globalLon);
         map.addMarker(new
-                MarkerOptions().position(venueLocation).title("Tutorialspoint.com"));
+                MarkerOptions().position(venueLocation));
         map.moveCamera(CameraUpdateFactory.newLatLng(venueLocation));
     }
 
