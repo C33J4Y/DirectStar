@@ -108,7 +108,8 @@ public class searchResultActivity extends AppCompatActivity {
 
             // Handles error when JSONObject is NULL
             ListView listView = (ListView) findViewById(R.id.searchResultView);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1, Collections.singletonList("No Results Found!"));
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1,
+                    Collections.singletonList("No Results Found!"));
             listView.setAdapter(adapter);
 
         }
