@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Collections;
 
 public class searchResultActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE3 = "Description String";
@@ -56,6 +59,7 @@ public class searchResultActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
                         //searchResultView.setText(error.toString());
+
                     }
                 });
 
@@ -72,6 +76,7 @@ public class searchResultActivity extends AppCompatActivity {
         int i = 0;
 
         try {
+
             JSONObject venues = response.getJSONObject("venues");
             JSONArray venueArray = venues.getJSONArray("venue");
 
@@ -96,18 +101,18 @@ public class searchResultActivity extends AppCompatActivity {
                         //"Venue Type:\t" + venueType + CRLF + CRLF;
 
                 //Toast.makeText(searchResultActivity.this,searchResults[i],Toast.LENGTH_LONG).show();
-
-                //searchResultView.setText(searchResults);
-
             }
+            populateSearchResultView(searchResults,latArray, lonArray);
         } catch (JSONException e) {
             //e.printStackTrace();
-            //searchResultView.setText(e.toString());
+
             // Handles error when JSONObject is NULL
-            //Toast.makeText(searchResultActivity.this,"No Results Found. Try Again!",Toast.LENGTH_LONG).show();
+            ListView listView = (ListView) findViewById(R.id.searchResultView);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(searchResultActivity.this,android.R.layout.simple_list_item_1, Collections.singletonList("No Results Found!"));
+            listView.setAdapter(adapter);
+
         }
 
-        populateSearchResultView(searchResults,latArray, lonArray);
     }
 
     //Function takes in results from API as a String array, copies to a new array and feeds the adapter
@@ -116,6 +121,7 @@ public class searchResultActivity extends AppCompatActivity {
         final String[] displayArray = new String[arrayLength];
         final Double[] displayLatArray = new Double[arrayLength];
         final Double[] displayLonArray = new Double[arrayLength];
+
         for (int j = 0; j < arrayLength; j++) {
             displayArray[j] = searchResults[j];
             displayLatArray[j] = latArray[j];
