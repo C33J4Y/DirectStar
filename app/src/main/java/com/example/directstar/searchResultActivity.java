@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +28,7 @@ public class searchResultActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE3 = "Description String";
     public static final String EXTRA_MESSAGE4 = "Latitude Array";
     public static final String EXTRA_MESSAGE5 =  "Longitude Array";
+    int CAPACITY = 0;
 
 
     @Override
@@ -69,19 +71,30 @@ public class searchResultActivity extends AppCompatActivity {
 
     //Function to parse json data
     public void displaySearchResults(JSONObject response) {
-        String[] searchResults = new String[10];
-        Double[] latArray = new Double[10];
-        Double[] lonArray = new Double[10];
+
         String CRLF = "\n";
-        int i = 0;
+
 
         try {
 
             JSONObject venues = response.getJSONObject("venues");
             JSONArray venueArray = venues.getJSONArray("venue");
 
+            //Count how many elements are in the venue array to set up size of storage array
+//            for(int j = 0; j < venueArray.length(); j++){
+//                CAPACITY++;
+//            }
+
+            CAPACITY = venueArray.length();
+
+            //Initialize array with correct CAPACITY
+            String[] searchResults = new String[CAPACITY];
+            Double[] latArray = new Double[CAPACITY];
+            Double[] lonArray = new Double[CAPACITY];
+
+
             // FOR loop to iterate through each object in the array to display multiple results
-            for (i = 0; i < venueArray.length(); i++) {
+            for (int i = 0; i < venueArray.length(); i++) {
                 JSONObject venuePart = venueArray.getJSONObject(i);
                 String venueName = venuePart.getString("venue_name");
                 String address = venuePart.getString("address");
@@ -101,6 +114,7 @@ public class searchResultActivity extends AppCompatActivity {
                         //"Venue Type:\t" + venueType + CRLF + CRLF;
 
                 //Toast.makeText(searchResultActivity.this,searchResults[i],Toast.LENGTH_LONG).show();
+
             }
             populateSearchResultView(searchResults,latArray, lonArray);
         } catch (JSONException e) {
@@ -119,9 +133,9 @@ public class searchResultActivity extends AppCompatActivity {
     //Function takes in results from API as a String array, copies to a new array and feeds the adapter
     public void populateSearchResultView(String[] searchResults, Double[] latArray, Double[] lonArray){
         int arrayLength = searchResults.length;
-        final String[] displayArray = new String[arrayLength];
-        final Double[] displayLatArray = new Double[arrayLength];
-        final Double[] displayLonArray = new Double[arrayLength];
+        final String[] displayArray = new String[CAPACITY];
+        final Double[] displayLatArray = new Double[CAPACITY];
+        final Double[] displayLonArray = new Double[CAPACITY];
 
         for (int j = 0; j < arrayLength; j++) {
             displayArray[j] = searchResults[j];
