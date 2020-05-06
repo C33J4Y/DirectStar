@@ -27,7 +27,7 @@ public class searchResultActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE3 = "Description String";
     public static final String EXTRA_MESSAGE4 = "Latitude Array";
     public static final String EXTRA_MESSAGE5 =  "Longitude Array";
-    int CAPACITY = 0;
+    int CAPACITY = 1;
 
 
     @Override
@@ -73,49 +73,74 @@ public class searchResultActivity extends AppCompatActivity {
 
         String CRLF = "\n";
 
-
         try {
 
             JSONObject venues = response.getJSONObject("venues");
-            JSONArray venueArray = venues.getJSONArray("venue");
+            int totalItems = response.getInt("total_items");
 
-            //Count how many elements are in the venue array to set up size of storage array
-//            for(int j = 0; j < venueArray.length(); j++){
-//                CAPACITY++;
-//            }
+            // Handles error when JSONObject cannot be converted to JSONArray because it only contains 1 object
+            if(totalItems == 1){
 
-            CAPACITY = venueArray.length();
+                final String[] searchResults = new String[1];
+                final Double[] latArray = new Double[1];
+                final Double[] lonArray = new Double[1];
 
-            //Initialize array with correct CAPACITY
-            String[] searchResults = new String[CAPACITY];
-            Double[] latArray = new Double[CAPACITY];
-            Double[] lonArray = new Double[CAPACITY];
-
-
-            // FOR loop to iterate through each object in the array to display multiple results
-            for (int i = 0; i < venueArray.length(); i++) {
-                JSONObject venuePart = venueArray.getJSONObject(i);
-                String venueName = venuePart.getString("venue_name");
-                String address = venuePart.getString("address");
-                String cityName = venuePart.getString("city_name");
-                String state = venuePart.getString("region_name");
+                JSONObject venue = venues.getJSONObject("venue");
+                String venueName = venue.getString("venue_name");
+                String address = venue.getString("address");
+                String cityName = venue.getString("city_name");
+                String state = venue.getString("region_name");
                 //String venueType = venuePart.getString("venue_type");
-                Double lat = venuePart.getDouble("latitude");
-                Double lon = venuePart.getDouble("longitude");
-                latArray[i] = lat;
-                lonArray[i] = lon;
+                Double lat = venue.getDouble("latitude");
+                Double lon = venue.getDouble("longitude");
+                latArray[0] = lat;
+                lonArray[0] = lon;
 
-                searchResults[i] = "Venue Name: " + venueName + CRLF +
+                searchResults[0] = "Venue Name: " + venueName + CRLF +
                         "Address: " + address + CRLF +
                         "City: " + cityName + CRLF +
-                        "State: " + state + CRLF ;
-                        //"Lat:\t" + lat +"Lon:\t" + lon + CRLF + CRLF;
-                        //"Venue Type:\t" + venueType + CRLF + CRLF;
+                        "State: " + state + CRLF;
 
-                //Toast.makeText(searchResultActivity.this,searchResults[i],Toast.LENGTH_LONG).show();
+                populateSearchResultView(searchResults,latArray, lonArray);
 
+            }else {
+
+                JSONArray venueArray = venues.getJSONArray("venue");
+
+
+                CAPACITY = venueArray.length();
+
+                //Initialize array with correct CAPACITY
+                String[] searchResults = new String[CAPACITY];
+                Double[] latArray = new Double[CAPACITY];
+                Double[] lonArray = new Double[CAPACITY];
+
+
+                // FOR loop to iterate through each object in the array to display multiple results
+                for (int i = 0; i < venueArray.length(); i++) {
+                    JSONObject venuePart = venueArray.getJSONObject(i);
+                    String venueName = venuePart.getString("venue_name");
+                    String address = venuePart.getString("address");
+                    String cityName = venuePart.getString("city_name");
+                    String state = venuePart.getString("region_name");
+                    //String venueType = venuePart.getString("venue_type");
+                    Double lat = venuePart.getDouble("latitude");
+                    Double lon = venuePart.getDouble("longitude");
+                    latArray[i] = lat;
+                    lonArray[i] = lon;
+
+                    searchResults[i] = "Venue Name: " + venueName + CRLF +
+                            "Address: " + address + CRLF +
+                            "City: " + cityName + CRLF +
+                            "State: " + state + CRLF;
+                    //"Lat:\t" + lat +"Lon:\t" + lon + CRLF + CRLF;
+                    //"Venue Type:\t" + venueType + CRLF + CRLF;
+
+                    //Toast.makeText(searchResultActivity.this,searchResults[i],Toast.LENGTH_LONG).show();
+
+                }
+                populateSearchResultView(searchResults, latArray, lonArray);
             }
-            populateSearchResultView(searchResults,latArray, lonArray);
         } catch (JSONException e) {
             //e.printStackTrace();
 
