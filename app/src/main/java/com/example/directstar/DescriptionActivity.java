@@ -68,7 +68,8 @@ public class DescriptionActivity extends FragmentActivity implements OnMapReadyC
         LatLng venueLocation = new LatLng(globalLat, globalLon);
         map.addMarker(new
                 MarkerOptions().position(venueLocation));
-        map.moveCamera(CameraUpdateFactory.newLatLng(venueLocation));
+        //Moves camera and sets zooming level to 16F
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(venueLocation, 16F));
     }
 
 }
