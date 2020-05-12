@@ -18,8 +18,6 @@ public class FavoritesActivity extends AppCompatActivity  {
     private ArrayList<String> favorites;
     private ArrayAdapter<String> adapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +28,6 @@ public class FavoritesActivity extends AppCompatActivity  {
 
         favoritesList = findViewById(R.id.favoritesList);
 
-        //favoritesList.setOnItemClickListener((AdapterView.OnItemClickListener) this);
-
-
-
         favorites = FileHelper.readData(this);
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, favorites);
@@ -42,17 +36,20 @@ public class FavoritesActivity extends AppCompatActivity  {
         Toast.makeText(this, "Item Added", Toast.LENGTH_SHORT).show();
         favoritesList.setAdapter(adapter);
 
+        //To make ListView clickable
+        favoritesList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int j, long id) {
+                favorites.remove(j);
+                adapter.notifyDataSetChanged();
+                 FileHelper.writeData(favorites, FavoritesActivity.this);
+                Toast.makeText(FavoritesActivity.this, "Removed From Favorites.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
-
-       //@Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        favorites.remove(position);
-//        adapter.notifyDataSetChanged();
-//        FileHelper.writeData(favorites, this);
-//        Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
-//
-//    }
 
 }
 
