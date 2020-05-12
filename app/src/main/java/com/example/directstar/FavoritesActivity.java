@@ -4,14 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class FavoritesActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    int i = 0;
-    String[] favListArray = new String[]{""};
+public class FavoritesActivity extends AppCompatActivity  {
+
+    private ListView favoritesList;
+    private ArrayList<String> favorites;
+    private ArrayAdapter<String> adapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +28,31 @@ public class FavoritesActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String description = intent.getStringExtra(DescriptionActivity.EXTRA_MESSAGE6);
 
-        favListArray[i] = description;
-        i++;
+        favoritesList = findViewById(R.id.favoritesList);
 
-        ListView listView = (ListView) findViewById(R.id.favoritesList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(FavoritesActivity.this,android.R.layout.simple_list_item_1,favListArray);
-        listView.setAdapter(adapter);
+        //favoritesList.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+
+
+
+        favorites = FileHelper.readData(this);
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, favorites);
+        adapter.add(description);
+        FileHelper.writeData(favorites, this);
+        Toast.makeText(this, "Item Added", Toast.LENGTH_SHORT).show();
+        favoritesList.setAdapter(adapter);
+
+
     }
+
+       //@Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        favorites.remove(position);
+//        adapter.notifyDataSetChanged();
+//        FileHelper.writeData(favorites, this);
+//        Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
+//
+//    }
+
 }
+
